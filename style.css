@@ -1,75 +1,277 @@
-:root{
-  --green: #95d712;
-  --card-bg: rgba(23, 24, 24, 0.7);
+:root {
+  --green-start: #95d712;
+  --green-end: #7ab30b;
+  --card-bg: rgba(23, 24, 24, 0.8);
+  --btn-color: #ffffff;
+  --btn-text: #000000;
+}
+.progress-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  height: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.quiz-header, .question, .options {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-* { box-sizing: border-box; }
+.quiz-header.show, .question.show, .options.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#progress-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #95d712, #32a852);
+  transition: width 0.3s ease;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-family: Georgia, 'Times New Roman', Times, serif;
-  margin: 0;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--green);
+  background: linear-gradient(135deg, var(--green-start), var(--green-end));
   color: white;
-  padding: 20px;
+  padding: 16px;
 }
 
 .container {
   width: 100%;
   max-width: 700px;
   background: var(--card-bg);
-  padding: 22px;
-  border-radius: 14px;
+  padding: 24px 20px;
+  border-radius: 16px;
   text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 800ms ease;
 }
 
-h1 { margin: 0 0 10px 0; font-size: 1.8rem; animation: bounce 900ms ease; }
+h1 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  animation: bounce 900ms ease;
+}
 
 @keyframes bounce {
-  0% { transform: translateY(-40px); opacity: 0; }
+  0% { transform: translateY(-30px); opacity: 0; }
   50% { transform: translateY(10px); opacity: 1; }
   100% { transform: translateY(0); }
 }
 
-.question { font-weight: 600; margin: 12px 0; font-size: 1.1rem; text-align: left; }
-.options { text-align: left; margin-bottom: 14px; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes confetti {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  top: 0;
+  left: 50%;
+  opacity: 0.8;
+  animation: confetti 1.2s linear forwards;
+}
+.question {
+  font-weight: 600;
+  margin: 16px 0;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+.options {
+  text-align: left;
+  margin-bottom: 16px;
+}
 
 .options label {
   display: block;
-  background: rgba(255,255,255,0.06);
-  padding: 8px 10px;
-  border-radius: 8px;
-  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
+  transition: transform 0.12s, background 0.12s;
 }
 
-.options input[type="radio"] { margin-right: 10px; transform: translateY(1px); }
+.options label:hover {
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.options input[type="radio"] {
+  margin-right: 10px;
+  transform: translateY(1px);
+}
 
 .timer {
-  font-size: 1.05rem;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-bottom: 14px;
   text-align: right;
 }
 
 button {
-  background: white;
-  color: rgb(0, 0, 0);
-  padding: 10px 16px;
-  margin: 6px;
+  width: 100%;
+  max-width: 200px;
+  background: var(--btn-color);
+  color: var(--btn-text);
+  padding: 12px 0;
+  margin: 8px auto;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 0.98rem;
-  transition: transform 0.12s;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform 0.12s, background 0.2s;
+  display: block;
 }
 
-button:hover { transform: scale(1.03); }
+button:hover {
+  transform: scale(1.05);
+  background: #f1f1f1;
+}
 
-.nav { display: flex; justify-content: center; gap: 12px; margin-top: 8px; }
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
-#result-container h2 { margin-top: 0; }
+#result-container h2 {
+  margin-top: 0;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 16px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .question {
+    font-size: 1.1rem;
+  }
+
+  .options label {
+    font-size: 0.95rem;
+    padding: 10px 12px;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+}
+
+.review-card {
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #1e1e2f;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  color: #fff;
+}
+
+.correct { color: #95d712; font-weight: bold; }
+.wrong { color: #ff5252; font-weight: bold; }
+
+#startd-btn {
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background: #4caf50;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  animation: glowWiggle 1.5s infinite;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#startd-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #4caf50, 0 0 30px #4caf50;
+}
+
+@keyframes glowWiggle {
+  0% { transform: rotate(0deg); box-shadow: 0 0 5px #4caf50; }
+  25% { transform: rotate(3deg); box-shadow: 0 0 10px #4caf50; }
+  50% { transform: rotate(-3deg); box-shadow: 0 0 15px #4caf50; }
+  75% { transform: rotate(3deg); box-shadow: 0 0 10px #4caf50; }
+  100% { transform: rotate(0deg); box-shadow: 0 0 5px #4caf50; }
+}
+
+#intro {
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+#review-container .review-card {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#review-container .review-card.correct {
+  border-left: 5px solid #95d712;
+}
+
+#review-container .review-card.wrong {
+  border-left: 5px solid #ff5252;
+}
+
+#review-container div {
+  color: #ffffff; /* white text to stand out on a dark card */
+}
+
+#review-controls button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #333;
+  color: #fff;
+  margin: 5px;
+  transition: background 0.2s ease;
+}
+
+#review-controls button:hover {
+  background: #555;
+}
+
+#review-progress {
+  margin-bottom: 12px;
+  font-weight: bold;
+  text-align: center;
+}
